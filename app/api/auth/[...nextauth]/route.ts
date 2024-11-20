@@ -1,4 +1,5 @@
 import { prisma } from '@/prisma/prisma-client';
+import { User } from '@prisma/client';
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 
@@ -35,7 +36,7 @@ const handler = NextAuth({
         }
 
         if (user && user.password === credentials.password) {
-          return user as any;
+          return user as User as any;
         }
       },
     }),
