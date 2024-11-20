@@ -14,7 +14,7 @@ export const Provider = ({ children }: { children: React.ReactNode }) => {
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
         <SidebarProvider>
           <AppSidebar />
-          <main className="w-full">
+          <main className="w-full dark">
             <SidebarTrigger />
             <ModeToggle />
             <NextTopLoader />

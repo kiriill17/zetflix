@@ -46,7 +46,7 @@ export default function Home() {
           <p className="text-sm sm:w-1/2 font-light mt-2 w-full text-center sm:text-left">
             Сервис для просмотра фильмов бесплатно от Кирилла
           </p>
-          <a href="#main">
+          <a className="w-full flex justify-center sm:justify-start" href="#main">
             <Button
               variant="default"
               className="mx-auto sm:mx-0 mx-auto mx-0 text-white font-semibold bg-amber-700 mt-4 w-32 transition hover:bg-amber-600"
