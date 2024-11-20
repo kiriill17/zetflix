@@ -82,7 +82,7 @@ export function AppSidebar() {
           {!session.data?.user?.name ? (
             <>
               <a href="/login">
-                <Button onClick={() => signIn()} className="mb-2 w-full" variant="outline">
+                <Button className="mb-2 w-full" variant="outline">
                   Войти
                 </Button>
               </a>
