@@ -1,6 +1,6 @@
 'use client';
 
-import film from '../public/filmm.mp4';
+import film from '@/public/Filmm.mp4';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 
