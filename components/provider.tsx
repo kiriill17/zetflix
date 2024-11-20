@@ -11,7 +11,7 @@ import NextTopLoader from 'nextjs-toploader';
 export const Provider = ({ children }: { children: React.ReactNode }) => {
   return (
     <SessionProvider>
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+      <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
         <SidebarProvider>
           <AppSidebar />
           <main className="w-full dark">
