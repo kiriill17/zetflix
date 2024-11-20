@@ -22,7 +22,7 @@ export default function Page() {
     })();
   }, []);
   return (
-    <div className="px-10 max-w-screen-xl mx-auto">
+    <div className="px-10 max-w-screen-xl mx-auto mt-8">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-semibold">Все фильмы</h1>
         <DropdownMenu>

@@ -50,7 +50,10 @@ export function AppSidebar() {
       <SidebarHeader>
         <a href="/">
           <div className="px-2 py-2">
-            <h1 className="text-lg font-semibold">Zetflix</h1>
+            <div className="flex w-full items-center">
+              <h1 className="text-lg font-semibold">Zetflix</h1>
+              <img className="ml-1" src="https://vk.com/emoji/e/f09f8dbf.png" alt="" />
+            </div>
             <p className="text-xs font-light">Киносайт от Кирилла</p>
           </div>
         </a>

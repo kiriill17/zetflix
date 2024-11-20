@@ -30,7 +30,7 @@ export default function Home() {
   return (
     <>
       {/* header */}
-      <div className="h-96 relative w-full">
+      <div className="h-96 relative w-full scroll-smooth">
         <div className="h-96 flex bg-black opacity-50 ">
           <video
             className="w-full object-cover bg-black"
@@ -58,7 +58,7 @@ export default function Home() {
       </div>
 
       {/* films */}
-      <div className="px-16 mb-4">
+      <div className="px-16 mb-4 scroll-smooth">
         <h1 className="text-2xl font-semibold mb-4 mt-10">Фильмы</h1>
         <Carousel
           opts={{
@@ -66,7 +66,7 @@ export default function Home() {
           }}
           className="w-full "
         >
-          <CarouselContent id="main">
+          <CarouselContent id="main" className="scroll-smooth">
             {!arrFilms.length ? (
               <>
                 {Array.from({ length: 5 }).map((_, index) => (
@@ -79,7 +79,7 @@ export default function Home() {
               <>
                 {arrFilms.map((obj, index) => (
                   <CarouselItem key={index} className="md:basis-1/3 lg:basis-1/5">
-                    <div className="p-1 border-2 rounded-xl select-none">
+                    <div className="p-1 border-2 transition-shadow rounded-xl select-none hover:drop-shadow-[0_35px_35px_rgba(70,70,70,0.25)]">
                       <img
                         src={obj.placeholder}
                         alt="#"
@@ -96,7 +96,10 @@ export default function Home() {
                             Смотреть
                           </Button>
                         </a>
-                        <a href="">
+                        <a
+                          href=""
+                          className="border-2 p-1 rounded-xl hover:bg-amber-600 transition-all"
+                        >
                           <Heart strokeWidth={1.25} width={20} />
                         </a>
                       </div>
