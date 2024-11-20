@@ -1,101 +1,217 @@
-import Image from "next/image";
+'use client';
+
+import film from '../public/filmm.mp4';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from '@/components/ui/button';
+
+//carusel
+import * as React from 'react';
+
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel';
+import { Heart } from 'lucide-react';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [arrFilms, setArrFilms] = React.useState<any[]>([]);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
+  React.useEffect(() => {
+    (async () => {
+      const response = await fetch('/api/film');
+      const data = await response.json().catch(() => []);
+      setArrFilms(data);
+    })();
+  }, []);
+
+  return (
+    <>
+      {/* header */}
+      <div className="h-96 relative w-full">
+        <div className="h-96 flex bg-black opacity-50 ">
+          <video className="w-full object-cover bg-black" autoPlay loop muted src={film} />
+        </div>
+        <div className="absolute w-full h-full flex flex-col px-16 justify-center top-0 left-0">
+          <h1 className="text-4xl font-semibold text-center sm:text-left">Zetflix</h1>
+          <p className="text-sm sm:w-1/2 font-light mt-2 w-full text-center sm:text-left">
+            Сервис для просмотра фильмов бесплатно от Кирилла
+          </p>
+          <a href="#main">
+            <Button
+              variant="default"
+              className="mx-auto sm:mx-0 mx-auto mx-0 text-white font-semibold bg-amber-700 mt-4 w-32 transition hover:bg-amber-600"
+            >
+              Смотреть
+            </Button>
           </a>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+      </div>
+
+      {/* films */}
+      <div className="px-16 mb-4">
+        <h1 className="text-2xl font-semibold mb-4 mt-10">Фильмы</h1>
+        <Carousel
+          opts={{
+            align: 'start',
+          }}
+          className="w-full "
         >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          <CarouselContent id="main">
+            {!arrFilms.length ? (
+              <>
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <CarouselItem key={index} className="md:basis-1/3 lg:basis-1/5">
+                    <Skeleton className="w-[270px] h-[370px] rounded-xl" />
+                  </CarouselItem>
+                ))}
+              </>
+            ) : (
+              <>
+                {arrFilms.map((obj, index) => (
+                  <CarouselItem key={index} className="md:basis-1/3 lg:basis-1/5">
+                    <div className="p-1 border-2 rounded-xl select-none">
+                      <img
+                        src={obj.placeholder}
+                        alt="#"
+                        className="rounded h-60 object-cover"
+                        width={'100%'}
+                      />
+                      <h1 className="mt-2 ">{obj.name}</h1>
+
+                      <p className="font-light text-sm">{obj.year}</p>
+                      <p className="font-light text-sm">imdb: {obj.imdb}</p>
+                      <div className="flex justify-between items-center mt-2 mb-1">
+                        <a href={`/film/${obj.id}`}>
+                          <Button className="p-1 h-8 bg-black text-white border-2 hover:text-black">
+                            Смотреть
+                          </Button>
+                        </a>
+                        <a href="">
+                          <Heart strokeWidth={1.25} width={20} />
+                        </a>
+                      </div>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </>
+            )}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+      </div>
+      {/* serials */}
+      <div className="px-16 mb-4 max-w-full">
+        <h1 className="text-2xl font-semibold mb-4 mt-10">Сериалы</h1>
+        <div className="w-full">
+          <Carousel>
+            <CarouselContent>
+              {Array.from({ length: 9 }).map((_, index) => (
+                <CarouselItem key={index} className="md:basis-1/3 lg:basis-1/5">
+                  <div className="p-1 border-2 rounded-xl select-none">
+                    <img
+                      src="https://www.kino-teatr.ru/movie/posters/big/4/173334.jpg"
+                      alt="#"
+                      className="rounded h-60 object-cover w-30"
+                      width={'100%'}
+                    />
+                    <h1 className="w-fit text-center mt-2 ">Триггер</h1>
+
+                    <p className="font-light text-sm">2024</p>
+                    <p className="font-light text-sm">imdb: 8.2</p>
+                    <div className="flex justify-between items-center mt-2 mb-1">
+                      <Button className="p-1 h-8 bg-black text-white border-2">Смотреть</Button>
+                      <a href="">
+                        <Heart strokeWidth={1.25} width={20} />
+                      </a>
+                    </div>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
+        </div>
+        {/* cartoons */}
+        <div className=" mb-4">
+          <h1 className="text-2xl font-semibold mb-4 mt-10">Мультфильмы</h1>
+          <Carousel
+            opts={{
+              align: 'start',
+            }}
+            className="w-full "
+          >
+            <CarouselContent>
+              {Array.from({ length: 9 }).map((_, index) => (
+                <CarouselItem key={index} className="md:basis-1/3 lg:basis-1/5">
+                  <div className="p-1 border-2 rounded-xl select-none">
+                    <img
+                      src="https://upload.wikimedia.org/wikipedia/ru/thumb/1/19/%D0%9C%D0%BE%D0%B0%D0%BD%D0%B0_2.jpg/640px-%D0%9C%D0%BE%D0%B0%D0%BD%D0%B0_2.jpg"
+                      alt="#"
+                      className="rounded h-60 object-cover"
+                      width={'100%'}
+                    />
+                    <h1 className=" mt-2 ">Моана 2</h1>
+
+                    <p className="font-light text-sm">2024</p>
+                    <p className="font-light text-sm">imdb: 8.1</p>
+                    <div className="flex justify-between items-center mt-2 mb-1">
+                      <Button className="p-1 h-8 bg-black text-white border-2">Смотреть</Button>
+                      <a href="">
+                        <Heart strokeWidth={1.25} width={20} />
+                      </a>
+                    </div>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
+        </div>
+      </div>
+
+      {/* cartoons */}
+      <div className="px-16 mb-4">
+        <h1 className="text-2xl font-semibold mb-4 mt-10">Мультфильмы</h1>
+        <Carousel
+          opts={{
+            align: 'start',
+          }}
+          className="w-full "
         >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          <CarouselContent>
+            {arrFilms.map((obj, index) => (
+              <CarouselItem key={index} className="md:basis-1/3 lg:basis-1/5">
+                <div className="p-1 border-2 rounded-xl select-none">
+                  <img
+                    src={obj.placeholder}
+                    alt="#"
+                    className="rounded h-60 object-cover"
+                    width={'100%'}
+                  />
+                  <h1 className="mt-2 ">{obj.name}</h1>
+
+                  <p className="font-light text-sm">2024</p>
+                  <p className="font-light text-sm">imdb: {obj.imdb}</p>
+                  <div className="flex justify-between items-center mt-2 mb-1">
+                    <Button className="p-1 h-8 bg-black text-white border-2">Смотреть</Button>
+                    <a href="">
+                      <Heart strokeWidth={1.25} width={20} />
+                    </a>
+                  </div>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+      </div>
+    </>
   );
 }
